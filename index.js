@@ -1,14 +1,22 @@
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
+import {dirname} from "path";
+import {fileURLToPath} from "url";
 
+// Pointing to correct path for static files
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Define some key parameters
+var __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 const API_URL = "https://api.blockchain.com/v3/exchange/";
 let tickersQuery, tickers, priceQuery
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
     try {
